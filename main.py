@@ -26,6 +26,12 @@ app = Client(
     bot_token=TOKEN
 )
 
+@app.on_message(filters.command(["start"], prefixes=["/", "!"]))
+async def start(client, message):
+    await message.reply_text("Hello!")
+
+
+
 # @app.on_message(filters.command(["draw"]))
 @app.on_message(filters.text)
 def draw(client, message):
@@ -81,10 +87,5 @@ def draw(client, message):
             K.delete()
     else:
         message.reply_text(f"You are not allowed to use this bot.\nYour user id is: {message.from_user.id}")
-
-
-@app.on_message(filters.command(["start"], prefixes=["/", "!"]))
-async def start(client, message):
-    await message.reply_text("Hello!")
 
 app.run()
