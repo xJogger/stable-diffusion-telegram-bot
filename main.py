@@ -14,13 +14,12 @@ with open("config.txt",'r') as f:
 API_ID   = config_list[0]
 API_HASH = config_list[1]
 TOKEN    = config_list[2]
-SD_URL1   = config_list[3]
+SD_URL1  = config_list[3]
 USER_ID  = int(config_list[4])
+SD_URL   = SD_URL1
 
 if(len(config_list)==6):
     SD_URL2   = config_list[5]
-
-SW_FLAG = 0
 
 negative_prompt = "lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry, bad feet"
 
@@ -38,8 +37,11 @@ async def start(client, message):
 @app.on_message(filters.command(["sw"]))
 def draw(client, message):
     if message.from_user.id == USER_ID:
-        SW_FLAG = 1 - SW_FLAG;
-        K = message.reply_text(f"SD_URL change to {sw_flag}.")
+        if(SD_URL==SD_URL1):
+            SD_URL=SD_URL2
+        else:
+            SD_URL=SD_URL1
+        K = message.reply_text(f"SD_URL changed.")
         K.delete()
     else:
         message.reply_text(f"You are not allowed to use this bot.\nYour user id is: {message.from_user.id}")
@@ -53,11 +55,6 @@ def draw(client, message):
         #     message.reply_text("Format : /draw < text to anime image >")
         #     return
         # msg = msgs[1]
-
-        if(sw_flag==0):
-            SD_URL = SD_URL1
-        else:
-            SD_URL = SD_URL2
 
         msg = message.text
 
