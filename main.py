@@ -72,7 +72,7 @@ def draw(client, message):
             os.remove(f"{word}.png")
             K.delete()
     else:
-        message.reply_text("You are not allowed to use this bot.")
+        message.reply_text(f"You are not allowed to use this bot.\nYour user id is:{message.from_user.id}")
 
 
 @app.on_message(filters.command(["start"], prefixes=["/", "!"]))
