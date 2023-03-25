@@ -1,5 +1,19 @@
 # AI Powered Art in a Telegram Bot!
 
+
+## 用法
+
+    1. git clone https://github.com/xJogger/stable-diffusion-telegram-bot
+    2. 在stable-diffusion-telegram-bot文件夹中建立一个config.txt，每行放API_ID、API_HASH、TOKEN、SD_URL、USER_ID
+    3. docker compose up -d
+
+
+
+
+
+## 下面是原来项目的介绍
+
+
 ## Setup
 
 Install requirements
