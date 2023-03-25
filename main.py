@@ -36,7 +36,7 @@ def draw(client, message):
         #     return
         # msg = msgs[1]
 
-        msgs = message.text
+        msg = message.text
 
         K = message.reply_text("Please Wait 10-15 Second")
 
