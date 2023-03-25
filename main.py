@@ -37,13 +37,17 @@ async def start(client, message):
 @app.on_message(filters.command(["sw"]))
 def draw(client, message):
     if message.from_user.id == USER_ID:
-        global SD_URL
-        if(SD_URL==SD_URL1):
-            SD_URL=SD_URL2
+        if(len(config_list)==6):
+            global SD_URL
+            if(SD_URL==SD_URL1):
+                SD_URL=SD_URL2
+                message.reply_text(f"SD_URL changed to SD_URL2")
+            else:
+                SD_URL=SD_URL1
+                message.reply_text(f"SD_URL changed to SD_URL1")
         else:
-            SD_URL=SD_URL1
-        K = message.reply_text(f"SD_URL changed.")
-        K.delete()
+            message.reply_text(f"Only one SD_URL.")
+        
     else:
         message.reply_text(f"You are not allowed to use this bot.\nYour user id is: {message.from_user.id}")
 
