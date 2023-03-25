@@ -15,7 +15,7 @@ API_ID   = config_list[0]
 API_HASH = config_list[1]
 TOKEN    = config_list[2]
 SD_URL   = config_list[3]
-USER_ID  = config_list[4]
+USER_ID  = int(config_list[4])
 
 app = Client(
     "stable",
