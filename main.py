@@ -86,9 +86,9 @@ def draw(client, message):
                 )
                 os.remove(f"{word}.png")
                 K.delete()
-            except Exception as e:
-                message.reply_text(f"An server error occurred:\n`{e}`")
-                K.delete()
+        except Exception as e:
+            message.reply_text(f"An server error occurred:\n`{e}`")
+            K.delete()
 
     else:
         message.reply_text(f"You are not allowed to use this bot.\nYour user id is: {message.from_user.id}")
