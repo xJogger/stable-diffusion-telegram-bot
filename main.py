@@ -13,7 +13,7 @@ API_HASH = os.environ.get("API_HASH", None)
 TOKEN = os.environ.get("TOKEN", None) 
 SD_URL = os.environ.get("TOKEN", None) 
 
-bot = Client(
+app = Client(
     "stable",
     api_id=API_ID,
     api_hash=API_HASH,
@@ -52,7 +52,7 @@ def draw(client, message):
         image = Image.open(io.BytesIO(base64.b64decode(i.split(",", 1)[0])))
 
         png_payload = {"image": "data:image/png;base64," + i}
-        response2 = requests.post(url=f'{url}/sdapi/v1/png-info',
+        response2 = requests.post(url=f'{SD_URL}/sdapi/v1/png-info',
                                   json=png_payload)
 
         pnginfo = PngImagePlugin.PngInfo()
