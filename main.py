@@ -14,8 +14,13 @@ with open("config.txt",'r') as f:
 API_ID   = config_list[0]
 API_HASH = config_list[1]
 TOKEN    = config_list[2]
-SD_URL   = config_list[3]
+SD_URL1   = config_list[3]
 USER_ID  = int(config_list[4])
+
+if(len(config_list)==6):
+    SD_URL2   = config_list[5]
+
+sw_flag = 0
 
 negative_prompt = "lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry, bad feet"
 
@@ -30,7 +35,14 @@ app = Client(
 async def start(client, message):
     await message.reply_text("Hello!")
 
-
+@app.on_message(filters.command(["sw"]))
+def draw(client, message):
+    if message.from_user.id == USER_ID:
+        sw_flag = 1 - sw_flag;
+        K = message.reply_text(f"SD_URL change to {sw_flag}.")
+        K.delete()
+    else:
+        message.reply_text(f"You are not allowed to use this bot.\nYour user id is: {message.from_user.id}")
 
 # @app.on_message(filters.command(["draw"]))
 @app.on_message(filters.text)
@@ -42,6 +54,11 @@ def draw(client, message):
         #     return
         # msg = msgs[1]
 
+        if(sw_flag==0):
+            SD_URL = SD_URL1
+        else:
+            SD_URL = SD_URL2
+
         msg = message.text
 
         K = message.reply_text("Server is working ...")
@@ -49,6 +66,8 @@ def draw(client, message):
         payload = {
                 "prompt": msg,
                 "negative_prompt": negative_prompt,
+                "sampler_name": "DPM++ 2S a Karras",
+                "steps": 20,
             }
 
         try:
