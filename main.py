@@ -8,18 +8,28 @@ import random
 from PIL import Image, PngImagePlugin
 import base64
 
-with open("config.txt",'r') as f:
-    config_list = f.read().split('\n')
 
-API_ID   = config_list[0]
-API_HASH = config_list[1]
-TOKEN    = config_list[2]
-SD_URL1  = config_list[3]
-USER_ID  = int(config_list[4])
-SD_URL   = SD_URL1
+if os.path.isfile("config.txt"):
+    with open("config.txt",'r') as f:
+        config_list = f.read().split('\n')
+    API_ID   = config_list[0]
+    API_HASH = config_list[1]
+    TOKEN    = config_list[2]
+    SD_URL1  = config_list[3]
+    USER_ID  = int(config_list[4])
+    SD_URL   = SD_URL1
+    SD_URL2  = config_list[5]
+else:
+    API_ID   = os.environ.get('API_ID')
+    API_HASH = os.environ.get('API_HASH')
+    TOKEN    = os.environ.get('TOKEN')
+    SD_URL1  = os.environ.get('SD_URL1')
+    USER_ID  = int(os.environ.get('USER_ID'))
+    SD_URL   = SD_URL1
+    SD_URL2  = os.environ.get('SD_URL2')
 
-if(len(config_list)==6):
-    SD_URL2   = config_list[5]
+
+
 
 negative_prompt = "lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry, bad feet"
 
@@ -37,17 +47,13 @@ async def start(client, message):
 @app.on_message(filters.command(["sw"]))
 def draw(client, message):
     if message.from_user.id == USER_ID:
-        if(len(config_list)==6):
-            global SD_URL
-            if(SD_URL==SD_URL1):
-                SD_URL=SD_URL2
-                message.reply_text(f"SD_URL changed to SD_URL2")
-            else:
-                SD_URL=SD_URL1
-                message.reply_text(f"SD_URL changed to SD_URL1")
+        global SD_URL
+        if(SD_URL==SD_URL1):
+            SD_URL=SD_URL2
+            message.reply_text(f"SD_URL changed to SD_URL2")
         else:
-            message.reply_text(f"Only one SD_URL.")
-        
+            SD_URL=SD_URL1
+            message.reply_text(f"SD_URL changed to SD_URL1")
     else:
         message.reply_text(f"You are not allowed to use this bot.\nYour user id is: {message.from_user.id}")
 
