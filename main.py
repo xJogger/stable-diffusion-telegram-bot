@@ -44,47 +44,52 @@ def draw(client, message):
 
         msg = message.text
 
-        K = message.reply_text("Please Wait 10-15 Second")
+        K = message.reply_text("Server is working ...")
 
         payload = {
                 "prompt": msg,
                 "negative_prompt": negative_prompt,
             }
 
-        r = requests.post(url=f'{SD_URL}/sdapi/v1/txt2img', json=payload).json()
+        try:
+            r = requests.post(url=f'{SD_URL}/sdapi/v1/txt2img', json=payload).json()
 
-        chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        chars1 = "1234564890"
-        gen1 = random.choice(chars)
-        gen2 = random.choice(chars)
-        gen3 = random.choice(chars1)
-        gen4 = random.choice(chars)
-        gen5 = random.choice(chars)
-        gen6 = random.choice(chars)
-        gen7 = random.choice(chars1)
-        gen8 = random.choice(chars)
-        gen9 = random.choice(chars)
-        gen10 = random.choice(chars1)
-        word = f"{message.from_user.id}-MOE{gen1}{gen2}{gen3}{gen4}{gen5}{gen6}{gen7}{gen8}{gen9}{gen10}"
+            chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            chars1 = "1234564890"
+            gen1 = random.choice(chars)
+            gen2 = random.choice(chars)
+            gen3 = random.choice(chars1)
+            gen4 = random.choice(chars)
+            gen5 = random.choice(chars)
+            gen6 = random.choice(chars)
+            gen7 = random.choice(chars1)
+            gen8 = random.choice(chars)
+            gen9 = random.choice(chars)
+            gen10 = random.choice(chars1)
+            word = f"{message.from_user.id}-MOE{gen1}{gen2}{gen3}{gen4}{gen5}{gen6}{gen7}{gen8}{gen9}{gen10}"
 
-        for i in r['images']:
-            image = Image.open(io.BytesIO(base64.b64decode(i.split(",", 1)[0])))
+            for i in r['images']:
+                image = Image.open(io.BytesIO(base64.b64decode(i.split(",", 1)[0])))
 
-            png_payload = {"image": "data:image/png;base64," + i}
-            response2 = requests.post(url=f'{SD_URL}/sdapi/v1/png-info',
-                                      json=png_payload)
+                png_payload = {"image": "data:image/png;base64," + i}
+                response2 = requests.post(url=f'{SD_URL}/sdapi/v1/png-info',
+                                          json=png_payload)
 
-            pnginfo = PngImagePlugin.PngInfo()
-            pnginfo.add_text("parameters", response2.json().get("info"))
-            image.save(f'{word}.png', pnginfo=pnginfo)
+                pnginfo = PngImagePlugin.PngInfo()
+                pnginfo.add_text("parameters", response2.json().get("info"))
+                image.save(f'{word}.png', pnginfo=pnginfo)
 
-            message.reply_photo(
-                photo=f"{word}.png",
-                caption=
-                f"Prompt: **`{msg}`**\nPicture by **{message.from_user.first_name}**"
-            )
-            os.remove(f"{word}.png")
-            K.delete()
+                message.reply_photo(
+                    photo=f"{word}.png",
+                    caption=
+                    f"Prompt: **`{msg}`**\nPicture by **{message.from_user.first_name}**"
+                )
+                os.remove(f"{word}.png")
+                K.delete()
+            except Exception as e:
+                message.reply_text(f"An server error occurred:\n`{e}`")
+                K.delete()
+
     else:
         message.reply_text(f"You are not allowed to use this bot.\nYour user id is: {message.from_user.id}")
 
