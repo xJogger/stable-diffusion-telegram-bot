@@ -37,6 +37,7 @@ async def start(client, message):
 @app.on_message(filters.command(["sw"]))
 def draw(client, message):
     if message.from_user.id == USER_ID:
+        global SD_URL
         if(SD_URL==SD_URL1):
             SD_URL=SD_URL2
         else:
