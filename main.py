@@ -26,14 +26,17 @@ app = Client(
     bot_token=TOKEN
 )
 
-@app.on_message(filters.command(["draw"]))
+# @app.on_message(filters.command(["draw"]))
+@app.on_message(filters.text)
 def draw(client, message):
     if message.from_user.id == USER_ID:
-        msgs = message.text.split(' ', 1)
-        if len(msgs) == 1:
-            message.reply_text("Format : /draw < text to anime image >")
-            return
-        msg = msgs[1]
+        # msgs = message.text.split(' ', 1)
+        # if len(msgs) == 1:
+        #     message.reply_text("Format : /draw < text to anime image >")
+        #     return
+        # msg = msgs[1]
+
+        msgs = message.text
 
         K = message.reply_text("Please Wait 10-15 Second")
 
