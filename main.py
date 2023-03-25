@@ -20,7 +20,7 @@ USER_ID  = int(config_list[4])
 if(len(config_list)==6):
     SD_URL2   = config_list[5]
 
-sw_flag = 0
+SW_FLAG = 0
 
 negative_prompt = "lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry, bad feet"
 
@@ -38,7 +38,7 @@ async def start(client, message):
 @app.on_message(filters.command(["sw"]))
 def draw(client, message):
     if message.from_user.id == USER_ID:
-        sw_flag = 1 - sw_flag;
+        SW_FLAG = 1 - SW_FLAG;
         K = message.reply_text(f"SD_URL change to {sw_flag}.")
         K.delete()
     else:
