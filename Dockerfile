@@ -1,12 +1,9 @@
-FROM python:3.9-alpine
-
-ENV PYTHONFAULTHANDLER=1 \
-     PYTHONUNBUFFERED=1 \
-     PYTHONDONTWRITEBYTECODE=1 \
-     PIP_DISABLE_PIP_VERSION_CHECK=on
+FROM debian:11
 
 WORKDIR /app
+
 COPY . .
-RUN pip install -r requirements.txt --no-cache-dir
+
+RUN pip3 install -r requirements.txt --no-cache-dir
 
 CMD ["python", "main.py"]
