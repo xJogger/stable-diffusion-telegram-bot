@@ -17,6 +17,8 @@ TOKEN    = config_list[2]
 SD_URL   = config_list[3]
 USER_ID  = int(config_list[4])
 
+negative_prompt = "lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry, bad feet"
+
 app = Client(
     "stable",
     api_id=API_ID,
@@ -35,7 +37,10 @@ def draw(client, message):
 
         K = message.reply_text("Please Wait 10-15 Second")
 
-        payload = {"prompt": msg}
+        payload = {
+                "prompt": msg,
+                "negative_prompt": negative_prompt,
+            }
 
         r = requests.post(url=f'{SD_URL}/sdapi/v1/txt2img', json=payload).json()
 
@@ -72,7 +77,7 @@ def draw(client, message):
             os.remove(f"{word}.png")
             K.delete()
     else:
-        message.reply_text(f"You are not allowed to use this bot.\nYour user id is:{message.from_user.id}")
+        message.reply_text(f"You are not allowed to use this bot.\nYour user id is: {message.from_user.id}")
 
 
 @app.on_message(filters.command(["start"], prefixes=["/", "!"]))
